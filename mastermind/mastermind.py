@@ -1,5 +1,5 @@
 import requests, json, sys
-from requests.auth import HTTPBasicAuth
+from itertools import permutations 
 
 email = 'davidapgilman@gmail.com'
 
@@ -11,11 +11,16 @@ headers['Content-Type'] = 'application/json'
 
 # Interacting with the game
 r = requests.get('https://mastermind.praetorian.com/level/1/', headers=headers)
-print(r.json())
+inp = r.json()
+gladiators = inp['numGladiators']
+guesses = inp['numGuesses']
+rounds = inp['numRounds']
+weapons = inp['numWeapons']
 
-resp = []
-guess = [0,1,2,3]
-i = 0
+possible = list(permutations(range(weapons),gladiators))
+for i in possible:
+	print(i)
+
 
 while resp is empty:
 	
