@@ -3,10 +3,10 @@ from itertools import permutations
 
 
 def check(guess, ans):
-    resp = [len(list(set(guess).intersection(ans))),0]
+    resp = [len(list(set(guess).intersection(ans))), 0]
     for i in range(len(guess)):
         if guess[i] == ans[i]:
-            resp[1]+=1
+            resp[1] += 1
     return resp
 
 
@@ -29,17 +29,17 @@ weapons = inp['numWeapons']
 possible = list(permutations(range(weapons),gladiators))
 
 i = 0
-while i < guesses:
+while i <= guesses:
     guess = possible[0]
+    print(guess)
     r = requests.post('https://mastermind.praetorian.com/level/1/', data=json.dumps({'guess':guess}), headers=headers)
     print(r.json())
     print(r.json()['response'])
     combo = r.json()['response']
     possible.remove(guess)
     for p in possible:
-        if check(guess, p) == combo:
+        if check(p, guess) != combo:
             possible.remove(p)
-    for p in possible:
-        print(possible)
-    print("==========+!!!!!! " + str(i))
+    print(len(possible))
+    print(str(i))
     i += 1
