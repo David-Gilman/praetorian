@@ -17,10 +17,12 @@ r.json()
 # > {'Auth-Token': 'AUTH_TOKEN'}
 headers = r.json()
 headers['Content-Type'] = 'application/json'
+print(headers)
 
 # Interacting with the game
-r = requests.get('https://mastermind.praetorian.com/level/1/', headers=headers)
+r = requests.get('https://mastermind.praetorian.com/level/2/', headers=headers)
 inp = r.json()
+print(inp)
 gladiators = inp['numGladiators']
 guesses = inp['numGuesses']
 rounds = inp['numRounds']
