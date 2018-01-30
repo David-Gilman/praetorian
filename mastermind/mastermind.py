@@ -1,6 +1,15 @@
 import requests, json, sys
 from itertools import permutations 
 
+
+def check(guess, ans):
+    resp = [len(list(set(guess).intersection(ans))),0]
+    for i in range(len(guess)):
+        if guess[i] == ans[i]:
+            resp[1]+=1
+    return resp
+
+
 email = 'davidapgilman@gmail.com'
 
 r = requests.post('https://mastermind.praetorian.com/api-auth-token/', data={'email':email})
@@ -18,20 +27,19 @@ rounds = inp['numRounds']
 weapons = inp['numWeapons']
 
 possible = list(permutations(range(weapons),gladiators))
-for i in possible:
-	print(i)
 
-
-while resp is empty:
-	
-	r = requests.post('https://mastermind.praetorian.com/level/1/', data=json.dumps({'guess':guess}), headers=headers)
-	print(r.json()['response'])
-#print(r.json())
-
-
-def check(guess, ans):
-	resp = [len(list(set(guess).intersection(ans))),0]
-	for i in range(len(guess)):
-		if guess[i] == ans[i]:
-			resp[1]+=1 
-	return resp
+i = 0
+while i < guesses:
+    guess = possible[0]
+    r = requests.post('https://mastermind.praetorian.com/level/1/', data=json.dumps({'guess':guess}), headers=headers)
+    print(r.json())
+    print(r.json()['response'])
+    combo = r.json()['response']
+    possible.remove(guess)
+    for p in possible:
+        if check(guess, p) == combo:
+            possible.remove(p)
+    for p in possible:
+        print(possible)
+    print("==========+!!!!!! " + str(i))
+    i += 1
